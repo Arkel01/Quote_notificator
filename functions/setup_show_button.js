@@ -3,7 +3,7 @@ function setup_show_button(){
 
     let show_button = document.createElement('input');
     show_button.type = 'image';
-    show_button.src = 'http://image.noelshack.com/fichiers/2022/27/3/1657128812-show-button.gif';
+    show_button.src = show_button_url;
     show_button.id = 'show_button';
     show_button.style.width = '20px';
     show_button.style.height = '20px';

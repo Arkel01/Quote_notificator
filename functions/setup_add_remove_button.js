@@ -4,8 +4,8 @@ function setup_add_remove_button(is_topic_monitored_bool) {
     let add_remove_button = document.createElement('input');
     add_remove_button.id = 'add_remove_button';
     add_remove_button.type = 'image';
-    if (is_topic_monitored_bool) add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-remove-button.gif';
-    else add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-add-button.png';
+    if (is_topic_monitored_bool) add_remove_button.src = remove_button_url;
+    else add_remove_button.src = add_button_url;
     add_remove_button.style.width = '15px';
     add_remove_button.style.height = '15px';
     add_remove_button.style.marginLeft = '6px';
@@ -14,15 +14,15 @@ function setup_add_remove_button(is_topic_monitored_bool) {
         this.disabled = true;
         let is_topic_monitored_bool = await is_topic_monitored();
         if (is_topic_monitored_bool){
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-remove-button-loading.gif';
+            add_remove_button.src = remove_button_loading_url;
             let url_split = document.URL.split('#')[0].split('-');
             url_split[3] = '1';
             await remove_topic(url_split.join('-'));
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-add-button.png';
+            add_remove_button.src = add_button_url;
         } else {
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-add-button-loading.gif';
+            add_remove_button.src = add_button_loading_url;
             await add_topic();
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905477-remove-button.gif';
+            add_remove_button.src = remove_button_url;
         }
         this.disabled = false;
     };

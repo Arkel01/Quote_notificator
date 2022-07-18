@@ -3,7 +3,7 @@ function refresh() {
     à jour stockée dans localStorage, puis mise à jour de l'interface */
 
     return new Promise(async resolve => {
-        document.getElementById('show_button').src = 'http://image.noelshack.com/fichiers/2022/28/5/1657904402-show-button-loading.gif';
+        document.getElementById('show_button').src = show_button_loading_url;
         document.getElementById('header').style.opacity = 0; // Opacité du header nulle pour initialiser la progressbar de mise à jour des topics
 
         // Suppression des topics et des messages dans l'interface
@@ -34,9 +34,9 @@ function refresh() {
             document.getElementById('header').style.opacity = 100;
 
             let show_button = document.getElementById('show_button');
-            if (show_button.src == 'http://image.noelshack.com/fichiers/2022/28/6/1657978443-show-button-still-loading-notification.gif') {
-                show_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657904731-show-button-notification-blinking.gif'; // Si au moins une notification, changement d'icone
-            } else show_button.src = 'http://image.noelshack.com/fichiers/2022/27/5/1657293352-show-button.gif';
+            if (show_button.src == show_button_still_loading_notification_url) {
+                show_button.src = show_button_notification_blinking_url; // Si au moins une notification, changement d'icone
+            } else show_button.src = show_button_url;
 
             resolve();
         });

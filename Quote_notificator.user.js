@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Quote notificator
 // @namespace    Quote_notificator
-// @version      1.0.0
+// @version      1.1.0
 // @description  Notifie l'utilisateur lorsque quelqu'un lui répond sur les forums de jeuxvideo.com. Github : https://github.com/Arkel01/Quote_notificator
 // @author       Arkel01
 // @downloadURL  https://github.com/Arkel01/Quote_notificator/raw/main/Quote_notificator.user.js
@@ -356,9 +356,44 @@ function is_topic_monitored(){
  
 let user = document.getElementsByClassName('headerAccount__pseudo')[0].textContent; // Pseudonyme de l'utilisateur
 if(user == 'CONNEXION') {
-    alert('Erreur Quote notificator : utilisateur non connecté.');
+    alert('Erreur Quote notificator : utilisateur non connecté. Veuillez désactiver le script dans Tampermonkey.');
     return;
 }
+
+// Variables globales des URL des icones du script
+let is_light_theme_on = document.getElementsByTagName('html')[0].classList == 'theme-light';
+document.getElementsByClassName('toggleTheme')[0].addEventListener('click', () => { location.reload(); }); // Rechargement de la page en changeant le thème pour le mettre à jour
+let show_button_url, add_button_url, remove_button_url, anwser_button_url, delete_button_url, expand_button_url, collapse_button_url, show_button_loading_url, show_button_notification_blinking_url;
+if(is_light_theme_on) {
+    show_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142087-show-button.gif';
+    add_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142270-add-button.gif';
+    remove_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142270-remove-button.gif';
+    delete_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142397-delete-button.gif';
+    expand_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-expand.gif';
+    collapse_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-collapse.gif';
+    anwser_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142397-anwser-button.gif';
+    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143047-show-button-loading.gif';
+    show_button_notification_blinking_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143189-show-button-notification-blinking.gif';
+} else {
+    show_button_url = 'http://image.noelshack.com/fichiers/2022/27/5/1657293352-show-button.gif';
+    add_button_url = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-add-button.png';
+    remove_button_url = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-remove-button.gif';
+    delete_button_url = 'http://image.noelshack.com/fichiers/2022/27/4/1657217268-delete-button.gif';
+    expand_button_url = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-expand.gif';
+    collapse_button_url = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-collapse.gif';
+    anwser_button_url = 'http://image.noelshack.com/fichiers/2022/27/5/1657234800-anwser-button.gif';
+    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/28/5/1657904402-show-button-loading.gif';
+    show_button_notification_blinking_url = 'http://image.noelshack.com/fichiers/2022/28/5/1657904731-show-button-notification-blinking.gif';
+}
+
+let show_button_still_loading_notification_url = 'http://image.noelshack.com/fichiers/2022/28/6/1657978443-show-button-still-loading-notification.gif';
+let remove_button_loading_url = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-remove-button-loading.gif';
+let add_button_loading_url = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-add-button-loading.gif';
+let refresh_time_limit_choice_tick_url = 'http://image.noelshack.com/fichiers/2022/28/4/1657755789-tick.png';
+let refresh_time_limit_dropdown_image_url = 'http://image.noelshack.com/fichiers/2022/28/4/1657810949-dropdown-arrow.png';
+let bug_report_button_url = 'http://image.noelshack.com/fichiers/2022/28/6/1657970358-bug-report-icon.gif';
+let refresh_button_url = 'http://image.noelshack.com/fichiers/2022/27/3/1657130400-refresh-2-xxl.png';
+
 
 await setup_db();
 setup_show_button();
@@ -388,7 +423,7 @@ function refresh() {
     à jour stockée dans localStorage, puis mise à jour de l'interface */
 
     return new Promise(async resolve => {
-        document.getElementById('show_button').src = 'http://image.noelshack.com/fichiers/2022/28/5/1657904402-show-button-loading.gif';
+        document.getElementById('show_button').src = show_button_loading_url;
         document.getElementById('header').style.opacity = 0; // Opacité du header nulle pour initialiser la progressbar de mise à jour des topics
 
         // Suppression des topics et des messages dans l'interface
@@ -419,9 +454,9 @@ function refresh() {
             document.getElementById('header').style.opacity = 100;
 
             let show_button = document.getElementById('show_button');
-            if (show_button.src == 'http://image.noelshack.com/fichiers/2022/28/6/1657978443-show-button-still-loading-notification.gif') {
-                show_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657904731-show-button-notification-blinking.gif'; // Si au moins une notification, changement d'icone
-            } else show_button.src = 'http://image.noelshack.com/fichiers/2022/27/5/1657293352-show-button.gif';
+            if (show_button.src == show_button_still_loading_notification_url) {
+                show_button.src = show_button_notification_blinking_url; // Si au moins une notification, changement d'icone
+            } else show_button.src = show_button_url;
 
             resolve();
         });
@@ -464,8 +499,8 @@ function setup_add_remove_button(is_topic_monitored_bool) {
     let add_remove_button = document.createElement('input');
     add_remove_button.id = 'add_remove_button';
     add_remove_button.type = 'image';
-    if (is_topic_monitored_bool) add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-remove-button.gif';
-    else add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-add-button.png';
+    if (is_topic_monitored_bool) add_remove_button.src = remove_button_url;
+    else add_remove_button.src = add_button_url;
     add_remove_button.style.width = '15px';
     add_remove_button.style.height = '15px';
     add_remove_button.style.marginLeft = '6px';
@@ -474,15 +509,15 @@ function setup_add_remove_button(is_topic_monitored_bool) {
         this.disabled = true;
         let is_topic_monitored_bool = await is_topic_monitored();
         if (is_topic_monitored_bool){
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-remove-button-loading.gif';
+            add_remove_button.src = remove_button_loading_url;
             let url_split = document.URL.split('#')[0].split('-');
             url_split[3] = '1';
             await remove_topic(url_split.join('-'));
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657222295-add-button.png';
+            add_remove_button.src = add_button_url;
         } else {
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905226-add-button-loading.gif';
+            add_remove_button.src = add_button_loading_url;
             await add_topic();
-            add_remove_button.src = 'http://image.noelshack.com/fichiers/2022/28/5/1657905477-remove-button.gif';
+            add_remove_button.src = remove_button_url;
         }
         this.disabled = false;
     };
@@ -705,7 +740,7 @@ function setup_interface() {
                 let refresh_time_limit_choice_tick = document.createElement('input');
                 refresh_time_limit_choice_tick.id = 'refresh_time_limit_choice_tick';
                 refresh_time_limit_choice_tick.type = 'image';
-                refresh_time_limit_choice_tick.src = 'http://image.noelshack.com/fichiers/2022/28/4/1657755789-tick.png';
+                refresh_time_limit_choice_tick.src = refresh_time_limit_choice_tick_url;
                 refresh_time_limit_choice_tick.style.zIndex = 2;
                 refresh_time_limit_choice_tick.style.position = 'absolute';
                 refresh_time_limit_choice_tick.style.left = parseInt(refresh_time_limit_dropdown_menu.style.left.slice(0, -2)) + 8 + 'px';
@@ -720,7 +755,7 @@ function setup_interface() {
                 let refresh_time_limit_dropdown_image = document.createElement('input');
                 refresh_time_limit_dropdown_image.id = 'refresh_time_limit_dropdown_image';
                 refresh_time_limit_dropdown_image.type = 'image';
-                refresh_time_limit_dropdown_image.src = 'http://image.noelshack.com/fichiers/2022/28/4/1657810949-dropdown-arrow.png';
+                refresh_time_limit_dropdown_image.src = refresh_time_limit_dropdown_image_url;
                 refresh_time_limit_dropdown_image.style.zIndex = 2;
                 refresh_time_limit_dropdown_image.style.position = 'absolute';
                 refresh_time_limit_dropdown_image.style.left = parseInt(refresh_time_limit_dropdown_menu.style.left.slice(0, -2)) + 273 + 'px';
@@ -835,14 +870,14 @@ function setup_interface() {
                 let bug_report_button = document.createElement('input');
                 bug_report_button.id = 'bug_report_button';
                 bug_report_button.type = 'image';
-                bug_report_button.src = 'http://image.noelshack.com/fichiers/2022/28/6/1657970358-bug-report-icon.gif';
+                bug_report_button.src = bug_report_button_url;
                 bug_report_button.style.height = '22px';
                 bug_report_button.style.width = '22px';
                 bug_report_button.style.top = '14px';
                 bug_report_button.style.left = '1269px';
                 bug_report_button.style.position = 'absolute';
 
-                bug_report_button.onclick = function () { window.open('https://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Arkel01', '_blank').focus(); };
+                bug_report_button.onclick = function () { window.open('https://github.com/Arkel01/Quote_notificator/issues', '_blank').focus(); };
 
                 header.appendChild(bug_report_button);
 
@@ -888,7 +923,7 @@ function setup_interface() {
                 // Bouton refresh général
                 let refresh_button = document.createElement('input');
                 refresh_button.type = 'image';
-                refresh_button.src = 'http://image.noelshack.com/fichiers/2022/27/3/1657130400-refresh-2-xxl.png';
+                refresh_button.src = refresh_button_url;
                 refresh_button.id = 'refresh_button';
                 refresh_button.style.position = 'absolute';
                 refresh_button.style.left = '7px';
@@ -923,7 +958,7 @@ function setup_show_button(){
 
     let show_button = document.createElement('input');
     show_button.type = 'image';
-    show_button.src = 'http://image.noelshack.com/fichiers/2022/27/3/1657128812-show-button.gif';
+    show_button.src = show_button_url;
     show_button.id = 'show_button';
     show_button.style.width = '20px';
     show_button.style.height = '20px';
@@ -960,7 +995,8 @@ function show_topic(topic){
     box.style.width = '1350px';
     box.style.height = '40px';
     box.style.position = 'relative';
-    box.style.background = '#2e3238';
+    if (is_light_theme_on) box.style.background = '#ffffff'; 
+    else box.style.background = '#2e3238';
     box.style.marginTop = '5px';
     box.style.marginBottom = '5px';
 
@@ -1000,7 +1036,7 @@ function show_topic(topic){
     let topic_remove_button = document.createElement('input');
     topic_remove_button.classList = 'topic_remove_button';
     topic_remove_button.type = 'image';
-    topic_remove_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657217268-delete-button.gif';
+    topic_remove_button.src = delete_button_url;
     topic_remove_button.style.position = 'absolute';
     topic_remove_button.style.top = '10px';
     topic_remove_button.style.left = '1296px';
@@ -1049,7 +1085,7 @@ function show_topic(topic){
                 if (topic_updated.notification_counter == 0) { // Si il n'y a plus de notification pour le topic, mettre à jour l'interface
                     if(localStorage['Quote_notificator_get_zero_notification_topics']=='1') {
                         box.getElementsByClassName('notification_counter')[0].style.color = 'white';
-                        box.getElementsByClassName('expand_button')[0].src = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-expand.gif';
+                        box.getElementsByClassName('expand_button')[0].src = expand_button_url;
                     } else box.remove();
                 }
             };
@@ -1082,7 +1118,7 @@ function show_topic(topic){
         // Bouton expand / collapse pour afficher ou masquer les messages associés aux notifications
         let topic_button = document.createElement('input');
         topic_button.type = 'image';
-        topic_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-expand.gif';
+        topic_button.src = expand_button_url;
         topic_button.classList = 'expand_button';
         topic_button.style.position = 'absolute';
         topic_button.style.top = '10px';
@@ -1094,10 +1130,10 @@ function show_topic(topic){
             for (let message of document.getElementsByClassName(topic.url + '_unanwsered_message')) {
                 if (message != undefined && message.style.display === 'block') { // Première condition pour enlever l'erreur si la réponse a été ignorée entre temps
                     message.style.display = 'none';
-                    topic_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-expand.gif';
+                    topic_button.src = expand_button_url;
                 } else {
                     message.style.display = 'block';
-                    topic_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657219236-collapse.gif';
+                    topic_button.src = collapse_button_url;
                 }
             }
         }
@@ -1114,7 +1150,8 @@ function show_topic(topic){
         nb_notif.style.bottom = '60px';
         nb_notif.style.height = '30px';
         nb_notif.style.width = '30px';
-        nb_notif.style.color = 'white';
+        if (is_light_theme_on) nb_notif.style.color = 'black';
+        else nb_notif.style.color = 'white';
         if (topic.notification_counter != 0) nb_notif.style.color = '#f2613c';
 
         box.appendChild(nb_notif);
@@ -1220,7 +1257,7 @@ function update_topic(topic, number_of_sections) {
                         // Bouton ignore
                         let ignore_button = document.createElement('input');
                         ignore_button.type = 'image';
-                        ignore_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657217268-delete-button.gif';
+                        ignore_button.src = delete_button_url;
                         ignore_button.classList = 'ignore_button';
                         ignore_button.style.position = 'absolute';
                         ignore_button.style.top = '12px';
@@ -1232,7 +1269,7 @@ function update_topic(topic, number_of_sections) {
                         // Bouton anwser
                         let anwser_button = document.createElement('input');
                         anwser_button.type = 'image';
-                        anwser_button.src = 'http://image.noelshack.com/fichiers/2022/27/5/1657234800-anwser-button.gif';
+                        anwser_button.src = anwser_button_url;
                         anwser_button.classList = 'anwser_button';
                         anwser_button.style.position = 'absolute';
                         anwser_button.style.top = '12px';
@@ -1255,7 +1292,7 @@ function update_topic(topic, number_of_sections) {
         await edit_db(topic.url, 'notification_counter', 0);
         await edit_db(topic.url, 'last_fully_scraped_page', parseInt(n_pages)-1);
         await edit_db(topic.url, 'user_messages_text', current_user_messages_text);
-    } else document.getElementById('show_button').src = 'http://image.noelshack.com/fichiers/2022/28/6/1657978443-show-button-still-loading-notification.gif';
+    } else document.getElementById('show_button').src = show_button_still_loading_notification_url;
     progressbar_header_section.style.left = parseFloat(progressbar_header_section.style.width.slice(0, -2)) * (localStorage['Quote_notificator_next_header_section'] - 1) + 'px';
     localStorage['Quote_notificator_next_header_section'] = parseInt(localStorage['Quote_notificator_next_header_section']) + 1;
     progressbar_header_section.style.opacity = 100;

@@ -82,7 +82,7 @@ function update_topic(topic, number_of_sections) {
                         // Bouton ignore
                         let ignore_button = document.createElement('input');
                         ignore_button.type = 'image';
-                        ignore_button.src = 'http://image.noelshack.com/fichiers/2022/27/4/1657217268-delete-button.gif';
+                        ignore_button.src = delete_button_url;
                         ignore_button.classList = 'ignore_button';
                         ignore_button.style.position = 'absolute';
                         ignore_button.style.top = '12px';
@@ -94,7 +94,7 @@ function update_topic(topic, number_of_sections) {
                         // Bouton anwser
                         let anwser_button = document.createElement('input');
                         anwser_button.type = 'image';
-                        anwser_button.src = 'http://image.noelshack.com/fichiers/2022/27/5/1657234800-anwser-button.gif';
+                        anwser_button.src = anwser_button_url;
                         anwser_button.classList = 'anwser_button';
                         anwser_button.style.position = 'absolute';
                         anwser_button.style.top = '12px';
@@ -117,7 +117,7 @@ function update_topic(topic, number_of_sections) {
         await edit_db(topic.url, 'notification_counter', 0);
         await edit_db(topic.url, 'last_fully_scraped_page', parseInt(n_pages)-1);
         await edit_db(topic.url, 'user_messages_text', current_user_messages_text);
-    } else document.getElementById('show_button').src = 'http://image.noelshack.com/fichiers/2022/28/6/1657978443-show-button-still-loading-notification.gif';
+    } else document.getElementById('show_button').src = show_button_still_loading_notification_url;
     progressbar_header_section.style.left = parseFloat(progressbar_header_section.style.width.slice(0, -2)) * (localStorage['Quote_notificator_next_header_section'] - 1) + 'px';
     localStorage['Quote_notificator_next_header_section'] = parseInt(localStorage['Quote_notificator_next_header_section']) + 1;
     progressbar_header_section.style.opacity = 100;

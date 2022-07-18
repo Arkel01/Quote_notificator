@@ -182,7 +182,7 @@ function setup_interface() {
                 let refresh_time_limit_choice_tick = document.createElement('input');
                 refresh_time_limit_choice_tick.id = 'refresh_time_limit_choice_tick';
                 refresh_time_limit_choice_tick.type = 'image';
-                refresh_time_limit_choice_tick.src = 'http://image.noelshack.com/fichiers/2022/28/4/1657755789-tick.png';
+                refresh_time_limit_choice_tick.src = refresh_time_limit_choice_tick_url;
                 refresh_time_limit_choice_tick.style.zIndex = 2;
                 refresh_time_limit_choice_tick.style.position = 'absolute';
                 refresh_time_limit_choice_tick.style.left = parseInt(refresh_time_limit_dropdown_menu.style.left.slice(0, -2)) + 8 + 'px';
@@ -197,7 +197,7 @@ function setup_interface() {
                 let refresh_time_limit_dropdown_image = document.createElement('input');
                 refresh_time_limit_dropdown_image.id = 'refresh_time_limit_dropdown_image';
                 refresh_time_limit_dropdown_image.type = 'image';
-                refresh_time_limit_dropdown_image.src = 'http://image.noelshack.com/fichiers/2022/28/4/1657810949-dropdown-arrow.png';
+                refresh_time_limit_dropdown_image.src = refresh_time_limit_dropdown_image_url;
                 refresh_time_limit_dropdown_image.style.zIndex = 2;
                 refresh_time_limit_dropdown_image.style.position = 'absolute';
                 refresh_time_limit_dropdown_image.style.left = parseInt(refresh_time_limit_dropdown_menu.style.left.slice(0, -2)) + 273 + 'px';
@@ -312,14 +312,14 @@ function setup_interface() {
                 let bug_report_button = document.createElement('input');
                 bug_report_button.id = 'bug_report_button';
                 bug_report_button.type = 'image';
-                bug_report_button.src = 'http://image.noelshack.com/fichiers/2022/28/6/1657970358-bug-report-icon.gif';
+                bug_report_button.src = bug_report_button_url;
                 bug_report_button.style.height = '22px';
                 bug_report_button.style.width = '22px';
                 bug_report_button.style.top = '14px';
                 bug_report_button.style.left = '1269px';
                 bug_report_button.style.position = 'absolute';
 
-                bug_report_button.onclick = function () { window.open('https://www.jeuxvideo.com/messages-prives/nouveau.php?all_dest=Arkel01', '_blank').focus(); };
+                bug_report_button.onclick = function () { window.open('https://github.com/Arkel01/Quote_notificator/issues', '_blank').focus(); };
 
                 header.appendChild(bug_report_button);
 
@@ -365,7 +365,7 @@ function setup_interface() {
                 // Bouton refresh général
                 let refresh_button = document.createElement('input');
                 refresh_button.type = 'image';
-                refresh_button.src = 'http://image.noelshack.com/fichiers/2022/27/3/1657130400-refresh-2-xxl.png';
+                refresh_button.src = refresh_button_url;
                 refresh_button.id = 'refresh_button';
                 refresh_button.style.position = 'absolute';
                 refresh_button.style.left = '7px';
