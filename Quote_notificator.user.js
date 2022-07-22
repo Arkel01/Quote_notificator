@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Quote notificator
 // @namespace    Quote_notificator
-// @version      1.1.0
+// @version      1.1.1
 // @description  Notifie l'utilisateur lorsque quelqu'un lui répond sur les forums de jeuxvideo.com. Github : https://github.com/Arkel01/Quote_notificator
 // @author       Arkel01
 // @downloadURL  https://github.com/Arkel01/Quote_notificator/raw/main/Quote_notificator.user.js
@@ -372,7 +372,7 @@ if(is_light_theme_on) {
     expand_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-expand.gif';
     collapse_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-collapse.gif';
     anwser_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142397-anwser-button.gif';
-    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143047-show-button-loading.gif';
+    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/29/5/1658504475-show-button-loading.gif';
     show_button_notification_blinking_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143189-show-button-notification-blinking.gif';
 } else {
     show_button_url = 'http://image.noelshack.com/fichiers/2022/27/5/1657293352-show-button.gif';
@@ -633,7 +633,7 @@ function setup_interface() {
                 display_zero_notification_topics_tickbox_text.style.display = 'none';
                 display_zero_notification_topics_tickbox_text.style.width = '300px';
                 display_zero_notification_topics_tickbox_text.style.height = '21px';
-                display_zero_notification_topics_tickbox_text.style.left = '235px';
+                
                 display_zero_notification_topics_tickbox_text.style.position = 'absolute';
                 display_zero_notification_topics_tickbox_text.style.color = 'white';
                 display_zero_notification_topics_tickbox_text.style.textAlign = 'center';
@@ -641,7 +641,8 @@ function setup_interface() {
                 display_zero_notification_topics_tickbox_text.textContent = 'Afficher les topics sans notification';
 
                 display_zero_notification_topics_tickbox.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        display_zero_notification_topics_tickbox_text.style.left = rect.left - 40 + 'px';
                         display_zero_notification_topics_tickbox_text.style.top = rect.top - 35 + 'px';
                         display_zero_notification_topics_tickbox_text.style.display = 'block';
                 });
@@ -675,7 +676,8 @@ function setup_interface() {
                 refresh_at_startup_tickbox_text.style.left = '266px';
 
                 refresh_at_startup.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        refresh_at_startup_tickbox_text.style.left = rect.left - 10 + 'px';
                         refresh_at_startup_tickbox_text.style.top = rect.top - 35 + 'px';
                         refresh_at_startup_tickbox_text.style.display = 'block';
                 });
@@ -889,7 +891,8 @@ function setup_interface() {
                 bug_report_button_text.style.left = '1335px';
 
                 bug_report_button.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        bug_report_button_text.style.left = rect.left + 1058 + 'px';
                         bug_report_button_text.style.top = rect.top - 35 + 'px';
                         bug_report_button_text.style.display = 'block';
                 });

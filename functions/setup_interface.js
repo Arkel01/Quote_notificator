@@ -75,7 +75,7 @@ function setup_interface() {
                 display_zero_notification_topics_tickbox_text.style.display = 'none';
                 display_zero_notification_topics_tickbox_text.style.width = '300px';
                 display_zero_notification_topics_tickbox_text.style.height = '21px';
-                display_zero_notification_topics_tickbox_text.style.left = '235px';
+                
                 display_zero_notification_topics_tickbox_text.style.position = 'absolute';
                 display_zero_notification_topics_tickbox_text.style.color = 'white';
                 display_zero_notification_topics_tickbox_text.style.textAlign = 'center';
@@ -83,7 +83,8 @@ function setup_interface() {
                 display_zero_notification_topics_tickbox_text.textContent = 'Afficher les topics sans notification';
 
                 display_zero_notification_topics_tickbox.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        display_zero_notification_topics_tickbox_text.style.left = rect.left - 40 + 'px';
                         display_zero_notification_topics_tickbox_text.style.top = rect.top - 35 + 'px';
                         display_zero_notification_topics_tickbox_text.style.display = 'block';
                 });
@@ -117,7 +118,8 @@ function setup_interface() {
                 refresh_at_startup_tickbox_text.style.left = '266px';
 
                 refresh_at_startup.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        refresh_at_startup_tickbox_text.style.left = rect.left - 10 + 'px';
                         refresh_at_startup_tickbox_text.style.top = rect.top - 35 + 'px';
                         refresh_at_startup_tickbox_text.style.display = 'block';
                 });
@@ -331,7 +333,8 @@ function setup_interface() {
                 bug_report_button_text.style.left = '1335px';
 
                 bug_report_button.addEventListener('mouseover', function handleMouseOver() {
-                        var rect = header.getBoundingClientRect();
+                        let rect = header.getBoundingClientRect();
+                        bug_report_button_text.style.left = rect.left + 1058 + 'px';
                         bug_report_button_text.style.top = rect.top - 35 + 'px';
                         bug_report_button_text.style.display = 'block';
                 });

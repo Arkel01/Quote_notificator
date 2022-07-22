@@ -16,7 +16,7 @@ if(is_light_theme_on) {
     expand_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-expand.gif';
     collapse_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142605-collapse.gif';
     anwser_button_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658142397-anwser-button.gif';
-    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143047-show-button-loading.gif';
+    show_button_loading_url = 'http://image.noelshack.com/fichiers/2022/29/5/1658504475-show-button-loading.gif';
     show_button_notification_blinking_url = 'http://image.noelshack.com/fichiers/2022/29/1/1658143189-show-button-notification-blinking.gif';
 } else {
     show_button_url = 'http://image.noelshack.com/fichiers/2022/27/5/1657293352-show-button.gif';
