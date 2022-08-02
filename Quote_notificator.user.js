@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Quote notificator
 // @namespace    Quote_notificator
-// @version      1.1.1
+// @version      1.1.2
 // @description  Notifie l'utilisateur lorsque quelqu'un lui répond sur les forums de jeuxvideo.com. Github : https://github.com/Arkel01/Quote_notificator
 // @author       Arkel01
 // @downloadURL  https://github.com/Arkel01/Quote_notificator/raw/main/Quote_notificator.user.js
@@ -269,7 +269,10 @@ function get_time_of_last_message(last_page_document) {
 
     return new Promise(async resolve => {
         let messages = last_page_document.getElementById('page-messages-forum').getElementsByClassName('bloc-message-forum mx-2 mx-lg-0 ');
-        let topic_date = messages[messages.length - 1].getElementsByClassName('bloc-date-msg')[0].children[0].textContent;
+        let topic_date_div = messages[messages.length - 1].getElementsByClassName('bloc-date-msg')[0];
+        let topic_date;
+        if (topic_date_div.children[0]) topic_date = topic_date_div.children[0].textContent; // Si le dernier message vient d'un auteur dont le pseudo est supprimé, la structure html est différente
+        else topic_date = topic_date_div.textContent.slice(53, 79);
 
         // Conversion de la date du dernier message du topic en objet Date puis en timestamp
         let topic_date_splitted = topic_date.split(' ');

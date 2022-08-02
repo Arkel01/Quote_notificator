@@ -3,7 +3,10 @@ function get_time_of_last_message(last_page_document) {
 
     return new Promise(async resolve => {
         let messages = last_page_document.getElementById('page-messages-forum').getElementsByClassName('bloc-message-forum mx-2 mx-lg-0 ');
-        let topic_date = messages[messages.length - 1].getElementsByClassName('bloc-date-msg')[0].children[0].textContent;
+        let topic_date_div = messages[messages.length - 1].getElementsByClassName('bloc-date-msg')[0];
+        let topic_date;
+        if (topic_date_div.children[0]) topic_date = topic_date_div.children[0].textContent; // Si le dernier message vient d'un auteur dont le pseudo est supprimé, la structure html est différente
+        else topic_date = topic_date_div.textContent.slice(53, 79);
 
         // Conversion de la date du dernier message du topic en objet Date puis en timestamp
         let topic_date_splitted = topic_date.split(' ');

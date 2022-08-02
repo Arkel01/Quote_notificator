@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Quote notificator
 // @namespace    Quote_notificator
-// @version      1.1.1
+// @version      1.1.2
 // @description  Notifie l'utilisateur lorsque quelqu'un lui répond sur les forums de jeuxvideo.com. Github : https://github.com/Arkel01/Quote_notificator
 // @author       Arkel01
 // @downloadURL  https://github.com/Arkel01/Quote_notificator/raw/main/Quote_notificator.user.js
