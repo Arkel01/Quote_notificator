@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Quote notificator
 // @namespace    Quote_notificator
-// @version      1.1.3
+// @version      1.1.4
 // @description  Notifie l'utilisateur lorsque quelqu'un lui répond sur les forums de jeuxvideo.com. Github : https://github.com/Arkel01/Quote_notificator
 // @author       Arkel01
 // @downloadURL  https://github.com/Arkel01/Quote_notificator/raw/main/Quote_notificator.user.js
@@ -1190,7 +1190,7 @@ function update_topic(topic, number_of_sections) {
     progressbar_header_section.style.height = header.style.height;
     progressbar_header_section.classList.add('progressbar_section');
     progressbar_header_section.style.background = '#4084f9';
-    progressbar_header_section.style.width = parseFloat(header.style.width.slice(0, -2)) / number_of_sections + 1 + 'px'; // + 1 pour combler le vide entre les sections causé par l'arrondissement des décimales
+    progressbar_header_section.style.width = parseFloat(header.style.width.slice(0, -2)) / number_of_sections + 'px';
     progressbar_header_section.style.position = 'absolute';
     progressbar_header_section.style.opacity = 0;
 
@@ -1258,7 +1258,10 @@ function update_topic(topic, number_of_sections) {
                         messages[current_message].style.marginBottom = '8px';
                         messages[current_message].getElementsByClassName('bloc-options-msg')[0].remove(); // Suppression boutons citer / blacklist / ddb
                         current_avatar = messages[current_message].getElementsByClassName('user-avatar-msg js-lazy')[0]; // Les avatars sont déformés lors de la requête (l'avatar passe de l'attribut 'src' à 'data-src' et doit être réattribué)
-                        current_avatar.setAttribute('src', current_avatar.getAttribute('data-src'));
+                        if(current_avatar) { // Condition qui évite un crash au cas où la personne qui cite l'utilisateur a été bannie depuis son message
+                            current_avatar.setAttribute('src', current_avatar.getAttribute('data-src'));
+                        }
+                        
 
                         // Bouton ignore
                         let ignore_button = document.createElement('input');
